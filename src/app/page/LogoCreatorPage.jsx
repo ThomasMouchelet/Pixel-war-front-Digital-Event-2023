@@ -14,7 +14,7 @@ const socket = socketio.connect(process.env.REACT_APP_API_URL, {
 const LogoCreatorPage = () => {
     const gameRef = useRef(null);
     const cursorRef = useRef(null);
-    const [color, setColor] = useState("#fff");
+    const [color, setColor] = useState("#000");
     const [game, setGame] = useState(null);
     const [cursor, setCursor] = useState(null);
     const [ctx, setCtx] = useState(null);
