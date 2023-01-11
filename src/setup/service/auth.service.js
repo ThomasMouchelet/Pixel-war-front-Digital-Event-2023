@@ -54,13 +54,6 @@ const regenerateToken = () => {
         })
 };
 
-const completProfile = (credentials) => {
-    credentials.profileComplete = true
-  
-    return api.patch(`/auth/complete-signup`, credentials)
-        .then((res) => res.data)
-}
-
 const logout = () => {
     TokenService.removeUser();
 };
