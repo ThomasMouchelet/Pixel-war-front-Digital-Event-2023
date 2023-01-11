@@ -61,10 +61,10 @@ const LogoCreatorPage = () => {
     useEffect(() => {
         if(!game || !cursor || !ctx) return;
         cursor.addEventListener('click', function (event) {
-            addPixelIntoGame({ctx, cursor, game})
+            addPixelIntoGame({ctx, cursor, game, color})
         })
         game.addEventListener('click', function () {
-            addPixelIntoGame({ctx, cursor, game})
+            addPixelIntoGame({ctx, cursor, game, color})
         })
     }, [color, cursor, ctx, game])
 
@@ -74,11 +74,11 @@ const LogoCreatorPage = () => {
         ctx.fillRect(x, y, gridCellSize, gridCellSize)
     }
 
-    function addPixelIntoGame({ctx, cursor, game}) {
+    function addPixelIntoGame({ctx, cursor, game, color}) {
         const x = cursor.offsetLeft
         const y = cursor.offsetTop - game.offsetTop
     
-        createPixel({x, y, ctx})
+        createPixel({x, y, ctx, color})
     
         const pixel = {
             x,
@@ -107,7 +107,7 @@ const LogoCreatorPage = () => {
 
     return ( 
         <div>
-            <h1>Logo Creator</h1>
+            <h1>Pixel War</h1>
 
             <div id="cursor" ref={cursorRef}></div>
             <canvas id="game" ref={gameRef}></canvas>
