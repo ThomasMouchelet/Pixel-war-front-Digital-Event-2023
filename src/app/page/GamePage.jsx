@@ -16,7 +16,7 @@ const GamePage = () => {
 
             <ColorsSelector color={color} setColor={setColor} />
 
-            <AuthModal />
+            {/* <AuthModal /> */}
         </div>
      );
 }
