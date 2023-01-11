@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRef } from "react";
-import socketio from "socket.io-client";
-import ColorsSelector from "../component/ColorsSelector";
+import { SocketContext } from "../../../setup/context/SocketContext";
 
 const gridCellSize = 10
 
-const socket = socketio.connect(process.env.REACT_APP_API_URL, {
-    // extraHeaders: {
-    //     Authorization: user ? user.accessToken : ''
-    // }
-})
-
-const LogoCreatorPage = () => {
+const GameCanvas = ({color}) => {
+    const { socket } = useContext(SocketContext);
     const gameRef = useRef(null);
     const cursorRef = useRef(null);
-    const [color, setColor] = useState("#000");
     const [game, setGame] = useState(null);
     const [cursor, setCursor] = useState(null);
     const [ctx, setCtx] = useState(null);
@@ -32,14 +25,6 @@ const LogoCreatorPage = () => {
 
         drawGrids(gridCtx, game.width, game.height, gridCellSize, gridCellSize)
 
-        socket.on("connect", () => {
-            console.log("Connected to server");
-        });
-        
-        socket.on("disconnect", () => {
-            console.log("Disconnected from server");
-        });
-
         socket.on("newPixel", (pixels) => {
             console.log("New pixel", pixels);
             pixels.forEach(pixel => {
@@ -51,11 +36,9 @@ const LogoCreatorPage = () => {
         game.addEventListener('mousemove', function (event) {
             const cursorLeft = event.clientX - (cursor.offsetWidth / 2)
             const cursorTop = event.clientY - (cursor.offsetHeight / 2)
-        
             cursor.style.left = Math.floor(cursorLeft / gridCellSize) * gridCellSize + "px"
             cursor.style.top = Math.floor(cursorTop / gridCellSize) * gridCellSize + "px"
         })
-        
     }, [])
 
     useEffect(() => {
@@ -77,15 +60,8 @@ const LogoCreatorPage = () => {
     function addPixelIntoGame({ctx, cursor, game, color}) {
         const x = cursor.offsetLeft
         const y = cursor.offsetTop - game.offsetTop
-    
         createPixel({x, y, ctx, color})
-    
-        const pixel = {
-            x,
-            y,
-            color
-        }
-    
+        const pixel = {x, y, color}
         socket.emit("newPixel", pixel);
     }
 
@@ -107,22 +83,10 @@ const LogoCreatorPage = () => {
 
     return ( 
         <div>
-            <h1>Pixel War</h1>
-
             <div id="cursor" ref={cursorRef}></div>
             <canvas id="game" ref={gameRef}></canvas>
-
-            <div style={{
-                position: "fixed", 
-                bottom: 50, 
-                letf: 0, 
-                zIndex: 9,
-                width: "100%",
-                }}>
-                <ColorsSelector color={color} setColor={setColor} />
-            </div>
         </div>
      );
 }
  
-export default LogoCreatorPage;
+export default GameCanvas;

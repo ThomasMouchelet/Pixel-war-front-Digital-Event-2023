@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
-import LogoCreatorPage from '../page/LogoCreatorPage';
+import GamePage from '../page/GamePage';
 
 const MainRouter = () => {
     return (
         <Routes>
-            <Route path='/' element={<LogoCreatorPage />} />
+            <Route path='/' element={<GamePage />} />
         </Routes>
     );
 }

@@ -9,7 +9,15 @@ const ColorsSelector = ({color, setColor}) => {
     };
 
     return ( 
-        <div>
+        <div
+            style={{
+                position: "fixed", 
+                bottom: 50, 
+                letf: 0, 
+                zIndex: 9,
+                width: "100%",
+            }}
+        >
             <SliderPicker 
                 color={ color }
                 onChangeComplete={ handleChangeComplete }
